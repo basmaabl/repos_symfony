@@ -7,7 +7,7 @@ RUN apt-get update \
         locales apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev unzip libpq-dev nodejs npm wget \
         apt-transport-https lsb-release ca-certificates
 
-# configuration des paramètres régionaux pour les langues anglaise et française
+# Configuration des paramètres régionaux pour les langues anglaise et française
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen  \
     &&  echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
     &&  locale-gen
