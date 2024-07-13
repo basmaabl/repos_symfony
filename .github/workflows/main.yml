@@ -32,13 +32,6 @@ jobs:
           push: true
           tags: solmos034/symfony_devops_project:php8-sf6
 
-      - name: Build and push database image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: Dockerfile.database
-          push: true
-          tags: solmos034/symfony_devops_project:database
 
       - name: Display Success Message
         run: echo "Workflow ran successfully!"
