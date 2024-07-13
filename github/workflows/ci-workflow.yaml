@@ -15,18 +15,38 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # - name: Build and push Docker image
-      #   env:
-      #     REPOSITORY: symfony_project
-      #     IMAGE_TAG: latest
-      #   run: |
-      #     docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/$REPOSITORY:$IMAGE_TAG -f php8-sf6/Dockerfile .
-      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/$REPOSITORY:$IMAGE_TAG
+      - name: Build and push php8-sf6 image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./php8-sf6
+          file: ./php8-sf6/Dockerfile
+          push: true
+          tags: solmos034/symfony_project:php8-sf6
+
+      - name: Build and push mailer image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile.mailer
+          push: true
+          tags: solmos034/symfony_project:mailer
+
+      - name: Build and push database image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile.database
+          push: true
+          tags: solmos034/symfony_project:database
+
       - name: Display Success Message
-      run: echo "Workflow ran successfully!"
+        run: echo "Workflow ran successfully!"
