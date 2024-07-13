@@ -31,14 +31,18 @@ jobs:
           file: ./php8-sf6/Dockerfile
           push: true
           tags: solmos034/symfony_devops_project:php8-sf6
-          
-      - name: Build and push database image
+  
+      - name: Start Docker Compose services
+        run: |
+          docker-compose up -d
+
+      - name: Commit and push database image
         run: |
           CONTAINER_ID=$(docker-compose ps -q database)
           docker commit $CONTAINER_ID solmos034/symfony_project:database
           docker push solmos034/symfony_project:database
 
-      - name: Build and push mailer image
+      - name: Commit and push mailer image
         run: |
           CONTAINER_ID=$(docker-compose ps -q mailer)
           docker commit $CONTAINER_ID solmos034/symfony_project:mailer
