@@ -1,4 +1,4 @@
-# CI WORKFLOW
+# CI WORKFLOW--update
 name: Build and Push Docker Image
 
 on:
@@ -30,23 +30,23 @@ jobs:
           context: ./php8-sf6
           file: ./php8-sf6/Dockerfile
           push: true
-          tags: solmos034/symfony_project:php8-sf6
+          tags: solmos034/symfony_devops_project:php8-sf6
+  
+      - name: Start Docker Compose services
+        run: |
+          docker-compose up -d
 
-      - name: Build and push mailer image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: Dockerfile.mailer
-          push: true
-          tags: solmos034/symfony_project:mailer
+      - name: Commit and push database image
+        run: |
+          CONTAINER_ID=$(docker-compose ps -q database)
+          docker commit $CONTAINER_ID solmos034/symfony_devops_project:database
+          docker push solmos034/symfony_devops_project:database
 
-      - name: Build and push database image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: Dockerfile.database
-          push: true
-          tags: solmos034/symfony_project:database
+      - name: Commit and push mailer image
+        run: |
+          CONTAINER_ID=$(docker-compose ps -q mailer)
+          docker commit $CONTAINER_ID solmos034/symfony_devops_project:mailer
+          docker push solmos034/symfony_devops_project:mailer
 
       - name: Display Success Message
         run: echo "Workflow ran successfully!"
