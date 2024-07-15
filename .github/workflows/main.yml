@@ -1,4 +1,4 @@
-# CI WORKFLOW--updated
+# CI WORKFLOW
 name: Build and Push Docker Image
 
 on:
