@@ -1,4 +1,4 @@
-# cd workflow
+# CD workflow
 name: Deploy to Production
 
 on:
@@ -34,6 +34,7 @@ jobs:
       - name: Deploy services using Docker Compose
         run: |
           docker-compose down
+          docker-compose build
           docker-compose up -d
 
       - name: Notify on deployment success
