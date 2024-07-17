@@ -15,7 +15,7 @@ en utilisant GitHub Actions.
 symfony_devopsprjt/
 ├── github/
 │ └── workflows/
-│ └── ci-workflow.yaml
+│ └── main.yaml
 ├── docker-compose.yaml
 ├── php8-sf6/
 │ ├── Dockerfile
