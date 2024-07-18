@@ -52,6 +52,10 @@ jobs:
         run: |
           minikube start --driver=docker
 
+      - name: Create namespace if not exists
+        run: |
+          kubectl create namespace symfony-namespace --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Deploy to Kubernetes
         run: |
           minikube status  # Vérifie l'état de Minikube
