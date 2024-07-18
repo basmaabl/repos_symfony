@@ -63,5 +63,14 @@ jobs:
           kubectl apply -f k8s/services.yml --dry-run=client  # Vérifie la syntaxe du fichier YAML
           kubectl apply -f k8s/services.yml -n symfony-namespace --validate=false  # Applique les configurations Kubernetes sans validation
 
+      - name: Get and display service URLs
+        run: |
+          echo "Getting service URLs..."
+          kubectl get svc -n symfony-namespace
+          echo "Service URLs:"
+          for service in $(kubectl get svc -n symfony-namespace -o jsonpath='{.items[*].metadata.name}'); do
+            minikube service $service -n symfony-namespace --url
+          done
+
       - name: Display Success Message
         run: echo "Workflow ran successfully!"
