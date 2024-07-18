@@ -1,5 +1,5 @@
-# CI WORKFLOW
-name: Build and Push Docker Image
+# CI/CD WORKFLOW
+name: Build, Push Docker Image and Deploy to Kubernetes
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
     branches: [main]
 
 jobs:
-  build-and-push:
+  build-push-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -45,8 +45,12 @@ jobs:
       - name: Commit and push mailer image
         run: |
           CONTAINER_ID=$(docker-compose ps -q mailer)
-          docker commit $CONTAINER_ID solmos034/symfony_devops_project:mailer
+            docker commit $CONTAINER_ID solmos034/symfony_devops_project:mailer
           docker push solmos034/symfony_devops_project:mailer
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f k8s/services.yml -n symfony-namespace --validate=false
 
       - name: Display Success Message
         run: echo "Workflow ran successfully!"
