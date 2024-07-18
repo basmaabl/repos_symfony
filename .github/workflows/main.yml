@@ -45,8 +45,12 @@ jobs:
       - name: Commit and push mailer image
         run: |
           CONTAINER_ID=$(docker-compose ps -q mailer)
-            docker commit $CONTAINER_ID solmos034/symfony_devops_project:mailer
+          docker commit $CONTAINER_ID solmos034/symfony_devops_project:mailer
           docker push solmos034/symfony_devops_project:mailer
+
+      - name: Start Minikube
+        run: |
+          minikube start --driver=docker
 
       - name: Deploy to Kubernetes
         run: |
