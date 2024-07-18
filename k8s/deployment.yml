@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: symfony-app-deploy
+  namespace: symfony-namespace
+  labels:
+    app: symfony-app
+spec:
+  selector:
+    matchLabels:
+      app: symfony-app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: symfony-app
+    spec:
+      containers:
+        - name: symfony-app
+          image: solmos034/symfony_project:php8-sf6
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://symfony:ChangeMe@postgres-service:5432/app"
+            - name: MAILER_DSN
+              value: "smtp://mailcatcher-service:1025"
+        - name: postgres
+          image: postgres:13-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "app"
+            - name: POSTGRES_USER
+              value: "symfony"
+            - name: POSTGRES_PASSWORD
+              value: "ChangeMe"
+        - name: mailcatcher
+          image: schickling/mailcatcher
+          ports:
+            - containerPort: 1025
+            - containerPort: 1080
