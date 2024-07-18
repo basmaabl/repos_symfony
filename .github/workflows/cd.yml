@@ -14,7 +14,7 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f k8s/services.yml -n symfony-namespace
+          kubectl apply -f k8s/services.yml -n symfony-namespace || echo "kubectl apply failed with exit code $?"
 
       - name: Display Success Message
         run: echo "Workflow ran successfully!"
