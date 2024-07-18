@@ -14,7 +14,7 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f services.yml -n symfony-namespace
+          kubectl apply -f k8s/services.yml -n symfony-namespace
 
       - name: Display Success Message
         run: echo "Workflow ran successfully!"
