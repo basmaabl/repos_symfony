@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: symfony-app
-          image: solmos034/symfony_project:php8-sf6
+          image: solmos034/symfony_devops_project/:php8-sf6
           ports:
             - containerPort: 8000
           env:

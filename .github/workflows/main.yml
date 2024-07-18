@@ -31,7 +31,7 @@ jobs:
           file: ./php8-sf6/Dockerfile
           push: true
           tags: solmos034/symfony_devops_project:php8-sf6
-  
+
       - name: Start Docker Compose services
         run: |
           docker-compose up -d
@@ -50,7 +50,10 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f k8s/services.yml -n symfony-namespace --validate=false
+          minikube status  # Vérifie l'état de Minikube
+          kubectl config current-context  # Vérifie le contexte actuel de kubectl
+          kubectl apply -f k8s/services.yml --dry-run=client  # Vérifie la syntaxe du fichier YAML
+          kubectl apply -f k8s/services.yml -n symfony-namespace --validate=false  # Applique les configurations Kubernetes sans validation
 
       - name: Display Success Message
         run: echo "Workflow ran successfully!"
