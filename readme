@@ -7,7 +7,7 @@ en utilisant GitHub Actions.
 -Docker et Docker Compose installés
 -Compte Docker Hub
 -Symfony CLI
--PHP 8
+-PHP 8 -
 -Yarn
 -Composer
 
