@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: symfony-app
+  namespace: symfony-namespace
+  labels:
+    app: symfony-app
+spec:
+  selector:
+    app: symfony-app
+  ports:
+    - name: symfony-app
+      port: 9000  # Port exposé sur le service Kubernetes
+      targetPort: 8000  # Port sur le conteneur où l'application Symfony écoute
+  type: NodePort
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: symfony-namespace
+  labels:
+    app: postgres
+spec:
+  selector:
+    app: symfony-app
+  ports:
+    - name: postgres
+      port: 5432  # Port exposé sur le service Kubernetes
+      targetPort: 5432  # Port sur le conteneur où PostgreSQL écoute
+  type: NodePort
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mailcatcher-service
+  namespace: symfony-namespace
+  labels:
+    app: mailcatcher
+spec:
+  selector:
+    app: symfony-app
+  ports:
+    - name: mailcatcher-smtp
+      port: 1025  # Port exposé sur le service Kubernetes pour SMTP
+      targetPort: 1025  # Port sur le conteneur où Mailcatcher SMTP écoute
+    - name: mailcatcher-http
+      port: 1080  # Port exposé sur le service Kubernetes pour HTTP
+      targetPort: 1080  # Port sur le conteneur où Mailcatcher HTTP écoute
+  type: NodePort

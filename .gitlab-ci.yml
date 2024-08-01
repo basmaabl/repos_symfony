@@ -1,0 +1,49 @@
+stages:
+  - build
+  - push
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_BUILDKIT: "1"
+
+services:
+  - docker:19.03.12-dind
+
+before_script:
+  - docker info
+  - docker login -u "$CI_REGISTRY_USER" -p "$DOCKERHUB_TOKEN" $CI_REGISTRY
+
+build_image:
+  stage: build
+  script:
+    - docker buildx create --use
+    - docker buildx inspect --bootstrap
+    - docker buildx build --file ./php8-sf6/Dockerfile --tag solmos034/symfony_devops_project:php8-sf6 --push .
+
+push_database_image:
+  stage: push
+  script:
+    - docker-compose up -d
+    - CONTAINER_ID=$(docker-compose ps -q database)
+    - docker commit $CONTAINER_ID solmos034/symfony_devops_project:database
+    - docker push solmos034/symfony_devops_project:database
+
+push_mailer_image:
+  stage: push
+  script:
+    - CONTAINER_ID=$(docker-compose ps -q mailer)
+    - docker commit $CONTAINER_ID solmos034/symfony_devops_project:mailer
+    - docker push solmos034/symfony_devops_project:mailer
+
+deploy_to_kubernetes:
+  stage: deploy
+  script:
+    - minikube start --driver=docker
+    - kubectl create namespace symfony-namespace --dry-run=client -o yaml | kubectl apply -f -
+    - kubectl apply -f k8s/services.yml --dry-run=client
+    - kubectl apply -f k8s/services.yml -n symfony-namespace --validate=false
+
+after_script:
+  - echo "Workflow ran successfully!"
