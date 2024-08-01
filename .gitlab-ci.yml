@@ -6,14 +6,15 @@ stages:
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
-  DOCKER_BUILDKIT: "1"
 
 services:
-  - docker:19.03.12-dind
+  - docker:20.10.7-dind
+
+image: docker:20.10.7
 
 before_script:
   - docker info
-  - docker login -u "$CI_REGISTRY_USER" -p "$DOCKERHUB_TOKEN" $CI_REGISTRY
+  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
 
 build_image:
   stage: build
