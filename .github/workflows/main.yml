@@ -35,33 +35,27 @@ jobs:
       - name: Start Docker Compose services
         run: |
           docker-compose up -d
-
       - name: Commit and push database image
         run: |
           CONTAINER_ID=$(docker-compose ps -q database)
           docker commit $CONTAINER_ID solmos034/symfony_devops_project:database
           docker push solmos034/symfony_devops_project:database
-
       - name: Commit and push mailer image
         run: |
           CONTAINER_ID=$(docker-compose ps -q mailer)
           docker commit $CONTAINER_ID solmos034/symfony_devops_project:mailer
           docker push solmos034/symfony_devops_project:mailer
-
       - name: Start Minikube
         run: |
           minikube start --driver=docker
-
       - name: Create namespace if not exists
         run: |
           kubectl create namespace symfony-namespace --dry-run=client -o yaml | kubectl apply -f -
-
       - name: Deploy to Kubernetes
         run: |
           minikube status  # Vérifie l'état de Minikube
           kubectl config current-context  # Vérifie le contexte actuel de kubectl
           kubectl apply -f k8s/services.yml --dry-run=client  # Vérifie la syntaxe du fichier YAML
           kubectl apply -f k8s/services.yml -n symfony-namespace --validate=false  # Applique les configurations Kubernetes sans validation
-
       - name: Display Success Message
         run: echo "Workflow ran successfully!"
