@@ -1,0 +1,73 @@
+---------------Symfony DevOps Project-------------------:
+Cette partie vise à configurer une application Symfony avec Docker
+et à automatiser les processus de build et de déploiement
+en utilisant GitHub Actions.
+
+-----------<>Prérequis<>------------------:
+-Docker et Docker Compose installés
+-Compte Docker Hub
+-Symfony CLI
+-PHP 8
+-Yarn
+-Composer
+
+-----------<>Architecture du Projet<>------------------:
+symfony_devopsprjt/
+├── github/
+│ └── workflows/
+│ └── main.yaml
+├── docker-compose.yaml
+├── php8-sf6/
+│ ├── Dockerfile
+│ └── entrypoint.sh
+└── project/ (dossier contenant le projet Symfony)
+
+--------<>Build de l'application Symfony<>-----------:
+
+# docker-compose build
+
+--------<>Run de l'application Symfony<>-----------:
+
+# docker-compose up -d
+
+--------<>Accès à l'application<>-----------:
+
+Vous pouvez accéder à l'application depuis l'URL ->   http://127.0.0.1:9000/
+
+--------<>Configuration CI/CD<>-----------:
+->Build de l'image Docker
+->Push de l'image sur Docker Hub
+
+LES ETAPES:
+
+1. Cloner le repository :
+
+git clone https://github.com/votre-utilisateur/votre-repo.git
+
+2. Se rendre dans le répertoire du projet :
+
+cd symfony_devopsprjt
+
+3. Construire les services Docker :
+
+docker-compose build
+
+4. Lancer les services en arrière-plan :
+
+docker-compose up -d
+
+5. Accéder à votre compte DockerHUB :
+   Créer un DOCKERHUB_TOKEN copier le et passer à votre répositorie github
+   accéder à sécurité puis secrets et variables puis actions là ou vous
+   pouvez créer les secrets DOCKERHUB_TOKEN sa valeur et celle copier
+   depuis dockerhub et DOCKERHUB_USERNAME le username de votre compte dockerhub
+
+6.Accéder au git bash:
+
+git add .
+git commit -m "nom-du-commit"
+git push
+
+7.se rendre sur github --> actions:
+
+voir le workflow CI complet et validé
