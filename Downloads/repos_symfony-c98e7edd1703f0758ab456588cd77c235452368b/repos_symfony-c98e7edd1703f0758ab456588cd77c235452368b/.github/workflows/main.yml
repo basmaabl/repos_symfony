@@ -1,11 +1,11 @@
-# CI/CD WORKFLOW
+# CI/CD WORKFLOWS
 name: Build, Push Docker Image and Deploy to Kubernetes
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
 
 jobs:
   build-push-and-deploy:
