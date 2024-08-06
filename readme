@@ -7,11 +7,19 @@ en utilisant GitHub Actions.
 -Docker et Docker Compose installés
 -Compte Docker Hub
 -Symfony CLI
+<<<<<<< HEAD
 -PHP 8 -
 -Yarn
 -Composer
 
 -----------<>Architecture du Projet:<>------------------:
+=======
+-PHP 8
+-Yarn
+-Composer
+
+-----------<>Architecture du Projet<>------------------:
+>>>>>>> c98e7edd1703f0758ab456588cd77c235452368b
 symfony_devopsprjt/
 ├── github/
 │ └── workflows/
